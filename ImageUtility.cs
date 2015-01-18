@@ -294,7 +294,7 @@ namespace Image
 
         /// <summary>
         /// 8bitのグレーの配列からBitmapを作成して保存 (memory byte[] → save 8bit gray .bmp)
-        /// Convert 16bit to 8bit by dividing, Save 8bit Image
+        /// Save 8bit Bitmap
         /// </summary>
         /// <param name="saveFileName">保存ファイル名</param>
         /// <param name="imgGry8">byte(8bit)配列</param>
@@ -349,8 +349,8 @@ namespace Image
 
 
         /// <summary>
-        /// 8bitのグレーの配列からTifを作成して圧縮して保存
-        /// Convert 16bit to 8bit by dividing, Save 8bit Image (memory byte[] → save 8bit gray .tif)
+        /// 8bitのグレーの配列からTifを作成して圧縮して保存 (memory byte[] → save 8bit gray .tif)
+        /// Save 8bit Bitmap  
         /// </summary>
         /// <param name="saveFileName">保存ファイル名</param>
         /// <param name="imgGry8">byte(8bit)配列</param>
