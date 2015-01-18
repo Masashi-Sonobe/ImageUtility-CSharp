@@ -350,7 +350,7 @@ namespace Image
 
         /// <summary>
         /// 8bitのグレーの配列からTifを作成して圧縮して保存 (memory byte[] → save 8bit gray .tif)
-        /// Save 8bit Bitmap  
+        /// Save 8bit Tif 
         /// </summary>
         /// <param name="saveFileName">保存ファイル名</param>
         /// <param name="imgGry8">byte(8bit)配列</param>
