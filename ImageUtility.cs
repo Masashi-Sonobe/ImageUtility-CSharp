@@ -20,7 +20,7 @@ namespace Snb
 namespace Image
 {
     /// <summary>
-    /// 画像を扱うための
+    /// 画像を扱うための関数郡
     /// </summary>
     public class ImageUtil
     {
