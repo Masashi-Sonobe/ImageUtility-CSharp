@@ -228,7 +228,7 @@ namespace Image
 
         /// <summary>
         /// 16bit(ushort)グレーの配列要素を256で割って，8bitグレーのBitmapで保存する (memory ushort[]/256 → save 8bit gray .bmp)
-        /// Convert 16bit to 8bit by dividing, Save 8bit Image
+        /// Convert 16bit to 8bit dividing by 256, Save 8bit Image
         /// </summary>
         /// <param name="saveFileName">保存ファイル名</param>
         /// <param name="imgGry16">ushort(16bit)配列</param>
@@ -268,6 +268,72 @@ namespace Image
                     for (int j = 0; j < imgWidth * imgHeight; ++j)
                     {
                         buf[j] = (byte)(imgGry16[j] / 256);
+                    }
+
+
+                    for (int j = 0; j < imgHeight; ++j)
+                    {
+                        IntPtr dst_line = (IntPtr)((Int64)bmpdata.Scan0 + j * bmpdata.Stride);
+                        Marshal.Copy(buf, j * imgWidth, dst_line, imgWidth);
+                    }
+
+                }
+                finally
+                {
+                    if (bmpdata != null)
+                    {
+                        convertedImg.UnlockBits(bmpdata);
+                    }
+                }
+
+                //画像保存
+                convertedImg.Save(saveFileName, ImageFormat.Bmp);
+
+            }
+        }
+
+        /// <summary>
+        /// 32bit(float)グレーの配列要素を256かけて，8bitグレーのBitmapで保存する (memory float[]*256 → save 8bit gray .bmp)
+        /// Convert 32bit to 8bit by multiplying 256, Save 8bit Image
+        /// </summary>
+        /// <param name="saveFileName">保存ファイル名</param>
+        /// <param name="imgGry16">ushort(16bit)配列</param>
+        /// <param name="imgWidth">画像幅</param>
+        /// <param name="imgHeight">画像高さ</param>
+        public static void Save8bitBitmapFrom32bitMemory(string saveFileName, float[] imgGry32, int imgWidth, int imgHeight)
+        {
+
+            //変換された画像
+            using (Bitmap convertedImg = new Bitmap(imgWidth, imgHeight, System.Drawing.Imaging.PixelFormat.Format8bppIndexed))
+            {
+
+                //パレット作成
+                ColorPalette pal = convertedImg.Palette;
+
+                for (int i = 0; i < 256; ++i)
+                {
+                    pal.Entries[i] = Color.FromArgb(i, i, i);
+                }
+
+                convertedImg.Palette = pal;
+
+                //BitmapDataの作成
+                BitmapData bmpdata = null;
+
+                bmpdata = convertedImg.LockBits(new Rectangle(0, 0, imgWidth, imgHeight),
+                                        ImageLockMode.WriteOnly,
+                                        PixelFormat.Format8bppIndexed);
+
+                //バッファを用意
+                byte[] buf = new byte[imgWidth * imgHeight];
+
+                //画像の変換とBitmap内への書き込み
+                try
+                {
+
+                    for (int j = 0; j < imgWidth * imgHeight; ++j)
+                    {
+                        buf[j] = (byte)(imgGry32[j] * 256);
                     }
 
 
